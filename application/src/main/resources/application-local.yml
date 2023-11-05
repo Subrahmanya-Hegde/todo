@@ -46,6 +46,8 @@ spring:
 #          github:
 #            client-id: CLIENT_ID
 #            client-secret: CLIENT_SECRET
+
+#Actuator Properties
 management:
   endpoints:
     web:
