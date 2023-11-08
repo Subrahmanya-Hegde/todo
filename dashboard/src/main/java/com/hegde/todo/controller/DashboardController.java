@@ -4,10 +4,9 @@ import com.hegde.todo.model.request.CreateDashboardRequest;
 import com.hegde.todo.service.IDashboardService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @Slf4j
@@ -25,5 +24,11 @@ public class DashboardController {
     ResponseEntity createDashboard(@RequestBody CreateDashboardRequest createDashboardRequest){
         log.info("Create request received");
         return ResponseEntity.ok(iDashboardService.createDashboard(createDashboardRequest));
+    }
+
+    @GetMapping
+    ResponseEntity getDashboard(){
+        log.info("Create request received");
+        return ResponseEntity.ok(List.of("Test"));
     }
 }

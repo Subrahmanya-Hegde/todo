@@ -10,9 +10,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 
 @Entity
@@ -44,22 +46,26 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    @Column
+    private String login;
+
     @CreatedDate
     @Column(updatable = false)
-    private OffsetDateTime dateCreated;
+    private LocalDateTime dateCreated;
 
     @LastModifiedDate
     @Column
-    private OffsetDateTime lastUpdated;
+    private LocalDateTime lastUpdated;
 
     @PrePersist
     private void setDateCreated(){
-        this.dateCreated = OffsetDateTime.from(LocalDate.now());
+        this.dateCreated = LocalDateTime.now();
     }
 
     @PreUpdate
     private void setDateUpdated(){
-        this.lastUpdated = OffsetDateTime.from(LocalDate.now());
+        this.uuid = String.valueOf(UUID.randomUUID());
+        this.lastUpdated = LocalDateTime.now();
     }
 
     @Override
