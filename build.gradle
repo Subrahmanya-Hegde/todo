@@ -36,8 +36,12 @@ subprojects {
 
         //Actuator
         implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '3.1.5'
-        //HAL Actuator visualizer
         implementation group: 'org.springframework.data', name: 'spring-data-rest-hal-browser', version: '3.3.9.RELEASE'
+
+        //MapStruct
+        implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+        annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+        annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 
 
         runtimeOnly('com.mysql:mysql-connector-j')

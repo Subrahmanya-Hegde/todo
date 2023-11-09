@@ -5,14 +5,9 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.util.Collection;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 
 @Entity
@@ -22,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class User implements UserDetails {
+public class User {
 
     @Id
     @Column(nullable = false, updatable = false)
@@ -44,56 +39,25 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    @Column
+    private String login;
+
     @CreatedDate
     @Column(updatable = false)
-    private OffsetDateTime dateCreated;
+    private LocalDateTime dateCreated;
 
     @LastModifiedDate
     @Column
-    private OffsetDateTime lastUpdated;
+    private LocalDateTime lastUpdated;
 
     @PrePersist
     private void setDateCreated(){
-        this.dateCreated = OffsetDateTime.from(LocalDate.now());
+        this.dateCreated = LocalDateTime.now();
     }
 
     @PreUpdate
     private void setDateUpdated(){
-        this.lastUpdated = OffsetDateTime.from(LocalDate.now());
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public String getPassword(){
-        return password;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
+        this.uuid = String.valueOf(UUID.randomUUID());
+        this.lastUpdated = LocalDateTime.now();
     }
 }
