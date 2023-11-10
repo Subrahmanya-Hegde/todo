@@ -21,13 +21,16 @@ public class AuthController {
     private final JwtService jwtService;
 
     public AuthController(UserService userService,
-                          JwtService jwtService,
-                          AuthenticationManager authenticationManager) {
+                          JwtService jwtService) {
         this.userService = userService;
         this.jwtService = jwtService;
-        this.authenticationManager = authenticationManager;
     }
 
+    /**
+     * This is the login controller. Provide your user email and password for jwt generation.
+     * @param credentialsDto
+     * @return
+     */
     @PostMapping("/login")
     public ResponseEntity<UserDto> login(@RequestBody CredentialsDto credentialsDto) {
         UserDto userDto = userService.login(credentialsDto);
@@ -35,6 +38,11 @@ public class AuthController {
         return ResponseEntity.ok(userDto);
     }
 
+    /**
+     * This is the register controller. Use this controller for user registration and generating the jwt token.
+     * @param signupDto
+     * @return
+     */
     @PostMapping("/register")
     public ResponseEntity<UserDto> register(@RequestBody SignupDto signupDto) {
         UserDto userDto = userService.register(signupDto);

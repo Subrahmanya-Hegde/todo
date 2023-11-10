@@ -2,7 +2,7 @@ package com.hegde.todo.service;
 
 import com.hegde.todo.domain.User;
 import com.hegde.todo.domain.UserPrincipal;
-import com.hegde.todo.exceptions.AppException;
+import com.hegde.todo.exception.AppException;
 import com.hegde.todo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

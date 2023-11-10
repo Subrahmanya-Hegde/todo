@@ -1,4 +1,4 @@
-package com.hegde.todo.exceptions;
+package com.hegde.todo.exception;
 
 import org.springframework.http.HttpStatus;
 

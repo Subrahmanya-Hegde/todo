@@ -4,7 +4,7 @@ import com.hegde.todo.domain.User;
 import com.hegde.todo.dto.CredentialsDto;
 import com.hegde.todo.dto.SignupDto;
 import com.hegde.todo.dto.UserDto;
-import com.hegde.todo.exceptions.AppException;
+import com.hegde.todo.exception.AppException;
 import com.hegde.todo.mappers.UserMapper;
 import com.hegde.todo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
