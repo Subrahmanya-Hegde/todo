@@ -2,4 +2,5 @@ rootProject.name = 'todo_app'
 include 'application'
 include 'dashboard'
 include 'user'
+include 'common'
 

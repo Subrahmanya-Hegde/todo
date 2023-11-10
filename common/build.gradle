@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'com.hegde'
-version '1.0-SNAPSHOT'
+version '0.0.1-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -12,9 +12,6 @@ repositories {
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-    implementation project(':dashboard')
-    implementation project(':user')
-    implementation project(':common')
 }
 
 test {
