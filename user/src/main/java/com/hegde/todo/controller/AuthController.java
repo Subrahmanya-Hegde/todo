@@ -1,4 +1,4 @@
-package com.hegde.todo.contrller;
+package com.hegde.todo.controller;
 
 import com.hegde.todo.dto.CredentialsDto;
 import com.hegde.todo.dto.SignupDto;
@@ -6,7 +6,6 @@ import com.hegde.todo.dto.UserDto;
 import com.hegde.todo.service.JwtService;
 import com.hegde.todo.service.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

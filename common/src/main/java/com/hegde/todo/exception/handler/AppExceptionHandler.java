@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.time.LocalDateTime;
+
 @ControllerAdvice
 public class AppExceptionHandler {
 
@@ -21,6 +23,7 @@ public class AppExceptionHandler {
         return ResponseEntity.status(appException.getCode())
                 .body(ErrorDto.builder()
                         .message(appException.getMessage())
+                        .dateTime(LocalDateTime.now())
                         .build());
     }
 
@@ -31,9 +34,10 @@ public class AppExceptionHandler {
     @ResponseBody
     @ExceptionHandler(value = {Exception.class})
     public ResponseEntity<ErrorDto> handleDefaultException(Exception exception){
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        return ResponseEntity.internalServerError()
                 .body(ErrorDto.builder()
                         .message(exception.getMessage())
+                        .dateTime(LocalDateTime.now())
                         .build());
     }
 }

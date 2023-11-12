@@ -1,6 +1,6 @@
 package com.hegde.todo.controller;
 
-import com.hegde.todo.model.request.CreateDashboardRequest;
+import com.hegde.todo.dto.request.CreateDashboardRequest;
 import com.hegde.todo.service.IDashboardService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
