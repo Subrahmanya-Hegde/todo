@@ -2,8 +2,10 @@ package com.hegde.todo.domain;
 
 import com.hegde.todo.dto.TaskStatus;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -13,6 +15,8 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class Task {
 
@@ -52,4 +56,16 @@ public class Task {
     private String createdBy;
 
     private String updatedBy;
+
+    @PrePersist
+    private void setDateCreated(){
+        LocalDateTime now = LocalDateTime.now();
+        this.dateCreated = now;
+        this.lastUpdated = now;
+    }
+
+    @PreUpdate
+    private void setDateUpdated(){
+        this.lastUpdated = LocalDateTime.now();
+    }
 }

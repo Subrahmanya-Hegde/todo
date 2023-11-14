@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="TodoAppApplication" type="Application" factoryName="Application" nameIsGenerated="true">
     <envs>
-      <env name="spring.profiles.active" value="local" />
+      <env name="spring.profiles.active" value="prod" />
     </envs>
     <option name="MAIN_CLASS_NAME" value="com.hegde.todo.TodoAppApplication" />
     <module name="todo_app.application.main" />
