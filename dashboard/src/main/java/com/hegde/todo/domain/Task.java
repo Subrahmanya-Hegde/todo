@@ -32,9 +32,10 @@ public class Task {
     private String description;
 
     @Column
+    @Enumerated(EnumType.STRING)
     private TaskStatus status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User assignedTo;
 
