@@ -52,12 +52,13 @@ public class User {
 
     @PrePersist
     private void setDateCreated(){
+        this.role = UserRole.USER;
+        this.uuid = "USR-" + UUID.randomUUID();
         this.dateCreated = LocalDateTime.now();
     }
 
     @PreUpdate
     private void setDateUpdated(){
-        this.uuid = String.valueOf(UUID.randomUUID());
         this.lastUpdated = LocalDateTime.now();
     }
 }

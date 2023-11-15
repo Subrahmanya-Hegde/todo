@@ -3,13 +3,14 @@ package com.hegde.todo.service;
 import com.hegde.todo.domain.Dashboard;
 import com.hegde.todo.domain.DashboardUser;
 import com.hegde.todo.domain.User;
-import com.hegde.todo.model.request.CreateDashboardRequest;
-import com.hegde.todo.model.response.CreateDashboardResponse;
+import com.hegde.todo.dto.request.CreateDashboardRequest;
+import com.hegde.todo.dto.response.CreateDashboardResponse;
 import com.hegde.todo.repository.DashboardRepository;
 import com.hegde.todo.repository.DashboardUserRepository;
 import com.hegde.todo.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Set;
@@ -44,8 +45,12 @@ public class DashboardService implements IDashboardService {
     }
 
     private void assignUsersToDashboard(List<String> userIds, Dashboard dashboard) {
+        if(CollectionUtils.isEmpty(userIds))
+            return;
         Set<User> users = userRepository.findByUuidIn(userIds);
-        users.forEach(user -> dashboardUserRepository.save(
-                DashboardUser.builder().dashboard(dashboard).user(user).build()));
+        List<DashboardUser> dashboardUsers = users.stream()
+                .map(user -> DashboardUser.builder().dashboard(dashboard).user(user).build())
+                .toList();
+        dashboardUserRepository.saveAll(dashboardUsers);
     }
 }

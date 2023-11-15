@@ -1,8 +1,8 @@
 package com.hegde.todo.service;
 
-import com.hegde.todo.model.request.CreateDashboardRequest;
-import com.hegde.todo.model.response.CreateDashboardResponse;
+import com.hegde.todo.dto.request.CreateDashboardRequest;
+import com.hegde.todo.dto.response.CreateDashboardResponse;
 
-    public interface IDashboardService {
+public interface IDashboardService {
     CreateDashboardResponse createDashboard(CreateDashboardRequest request);
 }

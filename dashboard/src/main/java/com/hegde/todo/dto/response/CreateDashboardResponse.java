@@ -1,4 +1,4 @@
-package com.hegde.todo.model.response;
+package com.hegde.todo.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hegde.todo.domain.Dashboard;

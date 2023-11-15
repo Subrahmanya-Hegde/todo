@@ -41,7 +41,7 @@ public class UserService {
     public UserDto register(SignupDto signupDto){
         Optional<User> userOptional = userRepository.findByEmail(signupDto.getEmail());
         if(userOptional.isPresent()){
-            throw new AppException("Login already exists", HttpStatus.BAD_REQUEST);
+            throw new AppException("User with email already exists", HttpStatus.BAD_REQUEST);
         }
         User user = userMapper.signupToUser(signupDto);
         user.setPassword(passwordEncoder.encode(CharBuffer.wrap(signupDto.getPassword())));

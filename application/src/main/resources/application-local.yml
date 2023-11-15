@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: todo-service
   datasource:
     url: ${JDBC_DATABASE_URL:jdbc:mysql://localhost:3306/todo_app?serverTimezone=UTC}
     username: ${JDBC_DATABASE_USERNAME:root}
@@ -19,6 +21,7 @@ spring:
             non_contextual_creation: true
         id:
           new_generator_mappings: true
+# TODO : Oauth2 implementation
 #  security.:
 #    oauth2:
 #      client:

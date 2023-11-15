@@ -5,12 +5,10 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
-import java.util.Base64;
 import java.util.Date;
 import java.util.function.Function;
 
@@ -19,13 +17,8 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class JwtService {
 
+    //TODO : Move to config.
     private String SECRET = "7526C8EAD36B463C498C23A71B565SNVDJAR232F2F2FQEFJQ13";
-    @Value("${security.jwt.token.secret-key:secret-value}")
-    private String secretKey;
-
-    protected void init(){
-        secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
-    }
 
     public String createToken(String email){
         Date now = new Date();

@@ -2,12 +2,15 @@ package com.hegde.todo.exception.handler;
 
 import com.hegde.todo.dto.ErrorDto;
 import com.hegde.todo.exception.AppException;
-import org.springframework.http.HttpStatus;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.time.LocalDateTime;
+
+@Slf4j
 @ControllerAdvice
 public class AppExceptionHandler {
 
@@ -18,9 +21,11 @@ public class AppExceptionHandler {
     @ResponseBody
     @ExceptionHandler(value = {AppException.class})
     public ResponseEntity<ErrorDto> handleAppException(AppException appException){
+        log.error(appException.getMessage());
         return ResponseEntity.status(appException.getCode())
                 .body(ErrorDto.builder()
                         .message(appException.getMessage())
+                        .dateTime(LocalDateTime.now())
                         .build());
     }
 
@@ -31,9 +36,11 @@ public class AppExceptionHandler {
     @ResponseBody
     @ExceptionHandler(value = {Exception.class})
     public ResponseEntity<ErrorDto> handleDefaultException(Exception exception){
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        log.error(exception.getMessage());
+        return ResponseEntity.internalServerError()
                 .body(ErrorDto.builder()
-                        .message(exception.getMessage())
+                        .message("There was error processing your request")
+                        .dateTime(LocalDateTime.now())
                         .build());
     }
 }

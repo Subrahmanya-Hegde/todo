@@ -1,19 +1,23 @@
 package com.hegde.todo.domain;
 
+import com.hegde.todo.dto.TaskStatus;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
-
+@Data
+@Builder
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-@Getter
-@Setter
 public class Task {
 
     @Id
@@ -22,32 +26,47 @@ public class Task {
     private Long id;
 
     @Column
-    private String heading;
+    private String title;
 
     @Column(name = "\"description\"", length = 100)
     private String description;
 
     @Column
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private TaskStatus status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
-    private User user;
+    private User assignedTo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dashboard_id")
     private Dashboard dashboard;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "task_status_id", unique = true)
-    private TaskStatus taskStatus;
+    @Column
+    private LocalDateTime estimatedCompletionTime;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    private OffsetDateTime dateCreated;
+    private LocalDateTime dateCreated;
 
     @LastModifiedDate
     @Column(nullable = false)
-    private OffsetDateTime lastUpdated;
+    private LocalDateTime lastUpdated;
 
+    private String createdBy;
+
+    private String updatedBy;
+
+    @PrePersist
+    private void setDateCreated(){
+        LocalDateTime now = LocalDateTime.now();
+        this.dateCreated = now;
+        this.lastUpdated = now;
+    }
+
+    @PreUpdate
+    private void setDateUpdated(){
+        this.lastUpdated = LocalDateTime.now();
+    }
 }
