@@ -38,7 +38,7 @@ public class TaskServiceV0 implements TaskService {
     @Override
     public TaskCreationResponse createTask(TaskCreateRequest taskCreateRequest) {
         Task task = taskRepository.save(getTask(taskCreateRequest));
-        producer.send("tasks-topic", task.toString());
+        producer.pushEvent("tasks-topic", task.toString());
         return TaskCreationResponse.builder()
                 .id(task.getId())
                 .taskTitle(task.getTitle())
