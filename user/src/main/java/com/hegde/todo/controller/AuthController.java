@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 
+//TODO : Encrypt the password. Currently password can be seen in the logs.
 @RestController
 @RequestMapping("v0/auth")
 public class AuthController {
