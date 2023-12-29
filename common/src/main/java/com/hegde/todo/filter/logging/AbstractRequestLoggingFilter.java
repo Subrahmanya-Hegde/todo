@@ -30,7 +30,7 @@ public abstract class AbstractRequestLoggingFilter extends OncePerRequestFilter 
      * The default value prepended to the log message written <i>before</i> a request is
      * processed.
      */
-    public static final String DEFAULT_BEFORE_MESSAGE_PREFIX = "Server Received Request : ";
+    public static final String DEFAULT_BEFORE_MESSAGE_PREFIX = "Received Request : ";
 
     /**
      * The default value appended to the log message written <i>before</i> a request is
@@ -424,7 +424,7 @@ public abstract class AbstractRequestLoggingFilter extends OncePerRequestFilter 
     @Nullable
     protected String getResponseMessage(HttpServletRequest request, HttpServletResponse response){
         StringBuilder msg = new StringBuilder();
-        msg.append("Server responded with : ")
+        msg.append("Responded with : ")
                 .append(request.getMethod())
                 .append(" ")
                 .append(request.getRequestURI())
