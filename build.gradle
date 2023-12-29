@@ -45,6 +45,11 @@ subprojects {
         annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
         annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 
+        //Tracing Context Propagation
+        implementation('io.micrometer:micrometer-tracing-bridge-brave')
+        //Latency visualization. TODO : Explore this
+        implementation('io.zipkin.reporter2:zipkin-reporter-brave')
+
 
         runtimeOnly('com.mysql:mysql-connector-j')
         compileOnly('org.projectlombok:lombok')

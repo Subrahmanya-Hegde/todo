@@ -12,10 +12,10 @@ import com.hegde.todo.dto.response.ListTasksResponse;
 import com.hegde.todo.dto.response.TaskCreationResponse;
 import com.hegde.todo.dto.response.ViewTaskResponse;
 import com.hegde.todo.exception.AppException;
+import com.hegde.todo.msq.producer.Producer;
 import com.hegde.todo.mapper.TasksDTOsMapper;
 import com.hegde.todo.repository.TaskRepository;
 import com.hegde.todo.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,10 +33,12 @@ public class TaskServiceV0 implements TaskService {
     private final TaskRepository taskRepository;
     private final TasksDTOsMapper tasksDTOsMapper;
     private final UserRepository userRepository;
+    private final Producer producer;
 
     @Override
     public TaskCreationResponse createTask(TaskCreateRequest taskCreateRequest) {
         Task task = taskRepository.save(getTask(taskCreateRequest));
+        producer.pushEvent("tasks-topic", task.toString());
         return TaskCreationResponse.builder()
                 .id(task.getId())
                 .taskTitle(task.getTitle())

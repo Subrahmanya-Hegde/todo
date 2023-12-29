@@ -21,8 +21,6 @@ import java.util.List;
 @RestController
 @RequestMapping("v0/tasks")
 public class TaskController {
-
-    private static String TASK_API_PATH = "v0/tasks/";
     private final TaskService taskService;
 
     public TaskController(TaskService taskService) {
@@ -32,7 +30,7 @@ public class TaskController {
     @PostMapping
     public ResponseEntity<TaskCreationResponse> createTask(@RequestBody TaskCreateRequest taskCreateRequest) {
         TaskCreationResponse taskCreationResponse = taskService.createTask(taskCreateRequest);
-        return ResponseEntity.created(URI.create(TASK_API_PATH + taskCreationResponse.id()))
+        return ResponseEntity.created(URI.create("v0/tasks/" + taskCreationResponse.id()))
                 .body(taskCreationResponse);
     }
 
