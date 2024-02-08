@@ -6,8 +6,8 @@
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-<!--            <pattern>%-5p [%d{ISO8601}] [%X{traceId}, %X{spanId}] %c: %m\n%ex</pattern>-->
-            <pattern>%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]</pattern>
+            <pattern>%-5p [%d{ISO8601}] [%X{traceId}, %X{spanId}] %c: %m\n%ex</pattern>
+<!--            <pattern>%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]</pattern>-->
         </encoder>
     </appender>
 

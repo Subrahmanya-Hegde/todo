@@ -31,10 +31,3 @@ management:
 logging:
   pattern:
     level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
-  level:
-    com:
-      hegde:
-        todo:
-          filter:
-            logging:
-              CustomRequestLogFilter: DEBUG
