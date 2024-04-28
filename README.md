@@ -3,6 +3,20 @@
 Just Another TODO app which is built using Spring Boot, MySQL.
 POC on different concepts.
 
+## Concepts Covered
+- Restful APIs
+- Spring data JPA
+- Modules. - Have split the project into multiple modules.
+- Filters. - Custom filters for different purposes. eg : `LogFilter` for logging necessary details of API calls, `JwtAuthenticationFilter` for authentication.
+- Actuator - For monitoring
+- Spring Security - Here have covered login using username password and generate JWT and use it in different APIs for authentication. This can be seen in `user` module.
+
+## Purpose
+Just like the name suggests, simple app for managing tasks.
+
+### Future Plan
+May be make it like jira/notion :)
+
 ## Tech stack
 - Java 17
 - Gradle 7.4
