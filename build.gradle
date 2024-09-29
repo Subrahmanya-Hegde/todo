@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '3.1.3'
     id 'io.spring.dependency-management' version '1.1.3'
     id 'java'
+    id 'application'
 }
 
 group = 'com.hegde'
@@ -14,6 +15,10 @@ repositories {
     mavenCentral()
     maven { url 'https://repo.spring.io/milestone' }
 }
+
+// In multi module project we need to specify the main class, because this contains some sub projects which don't have
+// main class. So we need to explicitly should provide the main class.
+mainClassName = 'com.hegde.todo.TodoAppApplication'
 
 //Apply these properties to all sub-projects
 subprojects {
@@ -32,10 +37,6 @@ subprojects {
         implementation('ch.qos.logback:logback-core')
         implementation('ch.qos.logback:logback-classic')
 
-        //Spring security
-        implementation('org.springframework.boot:spring-boot-starter-security')
-        implementation('org.springframework.boot:spring-boot-starter-oauth2-client')
-
         //Actuator
         implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '3.1.5'
         implementation group: 'org.springframework.data', name: 'spring-data-rest-hal-browser', version: '3.3.9.RELEASE'
@@ -45,7 +46,6 @@ subprojects {
         annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
         annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 
-
         runtimeOnly('com.mysql:mysql-connector-j')
         compileOnly('org.projectlombok:lombok')
         annotationProcessor('org.projectlombok:lombok')
@@ -53,6 +53,15 @@ subprojects {
         testAnnotationProcessor('org.projectlombok:lombok')
         developmentOnly('org.springframework.boot:spring-boot-devtools')
         testImplementation('org.springframework.boot:spring-boot-starter-test')
+    }
+
+    // Since some our sub projects are not spring boot applications we need to disable this. Otherwise the spring boot
+    // plugin will try to create the boot jar for non spring boot sub projects. So we are disabling this for all sub projects.
+    // This will result in creating normal jars. But since we have added the spring boot plugin in global build file,
+    // ultimately boot jar (fat jar will be created).
+    bootJar {
+//        enabled = false
+        mainClass.set('com.hegde.todo.TodoAppApplication')
     }
 }
 

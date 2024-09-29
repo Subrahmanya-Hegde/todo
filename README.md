@@ -22,7 +22,3 @@ configuration will be available under Edit Configurations. Use that and run.
 
 Or refer `TodoAppApplication.run.xml` file for running.
 
-## Generate JWT
-All APIs needs a JWT for accessing. So register or login using the
-`v0/auth/register` OR `v0/auth/login` APIs for JWT generation.
-

@@ -1,7 +1,5 @@
 package com.hegde.todo.controller;
 
-import com.hegde.todo.domain.CurrentUser;
-import com.hegde.todo.domain.UserPrincipal;
 import com.hegde.todo.dto.PageResponse;
 import com.hegde.todo.dto.request.TaskCreateRequest;
 import com.hegde.todo.dto.request.UpdateTaskRequest;
@@ -16,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -36,32 +35,32 @@ public class TaskController {
                 .body(taskCreationResponse);
     }
 
-    @GetMapping
-    public ResponseEntity<PageResponse<ListTasksResponse>> getTasks(@CurrentUser UserPrincipal userPrincipal,
-                                                                    @DefaultValue("1") @RequestParam(value = "pageNo", required = false) int pageNo,
+    @GetMapping("/{userId}")
+    public ResponseEntity<PageResponse<ListTasksResponse>> getTasks(@PathVariable("userId")UUID userId,
+                                                                    @DefaultValue("1")@RequestParam(value = "pageNo", required = false) int pageNo,
                                                                     @DefaultValue("10") @RequestParam(value = "pageSize", required = false) int pageSize) {
-        return ResponseEntity.ok(taskService.listTasks(userPrincipal, pageNo, pageSize));
+        return ResponseEntity.ok(taskService.listTasks(userId, pageNo, pageSize));
     }
 
     @GetMapping("/{taskId}")
-    public ResponseEntity<ViewTaskResponse> viewTicket(@CurrentUser UserPrincipal userPrincipal, @PathVariable("taskId") Long taskId){
-        return ResponseEntity.ok(taskService.viewTicket(taskId, userPrincipal));
+    public ResponseEntity<ViewTaskResponse> viewTicket(@PathVariable("taskId") Long taskId) {
+        return ResponseEntity.ok(taskService.viewTicket(taskId));
     }
 
     @PutMapping("/{taskId}")
-    public ResponseEntity<ViewTaskResponse> updateTicket(@CurrentUser UserPrincipal userPrincipal,
-                                                         @PathVariable("taskId") Long taskId,
-                                                         @RequestBody UpdateTaskRequest updateTaskRequest){
-        return ResponseEntity.ok(taskService.updateTask(taskId, updateTaskRequest, userPrincipal));
+    public ResponseEntity<ViewTaskResponse> updateTicket(@PathVariable("taskId") Long taskId,
+                                                         @RequestBody UpdateTaskRequest updateTaskRequest) {
+        return ResponseEntity.ok(taskService.updateTask(taskId, updateTaskRequest));
     }
 
 
     /**
      * Lists down valid task status.
+     *
      * @return
      */
     @GetMapping("/status")
-    public ResponseEntity<List<String>> listTaskStatuses(){
+    public ResponseEntity<List<String>> listTaskStatuses() {
         return ResponseEntity.ok(taskService.listTaskStatusFlow());
     }
 }

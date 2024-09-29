@@ -2,7 +2,6 @@ package com.hegde.todo.service;
 
 import com.hegde.todo.domain.Task;
 import com.hegde.todo.domain.User;
-import com.hegde.todo.domain.UserPrincipal;
 import com.hegde.todo.dto.ETA;
 import com.hegde.todo.dto.PageResponse;
 import com.hegde.todo.dto.TaskStatus;
@@ -15,7 +14,6 @@ import com.hegde.todo.exception.AppException;
 import com.hegde.todo.mapper.TasksDTOsMapper;
 import com.hegde.todo.repository.TaskRepository;
 import com.hegde.todo.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +23,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -44,8 +43,8 @@ public class TaskServiceV0 implements TaskService {
     }
 
     @Override
-    public PageResponse<ListTasksResponse> listTasks(UserPrincipal userPrincipal, int pageNo, int pageSize) {
-        User currentUser = getUser(userPrincipal.getUsername());
+    public PageResponse<ListTasksResponse> listTasks(UUID userId, int pageNo, int pageSize) {
+        User currentUser = getUser(userId);
         Page<Task> listTasksResponsePage = taskRepository.findByCreatedByOrAssignedTo(currentUser.getUuid(), currentUser,
                 PageRequest.of(pageNo, pageSize));
         return new PageResponse<>(!listTasksResponsePage.isLast(),
@@ -54,9 +53,8 @@ public class TaskServiceV0 implements TaskService {
     }
 
     @Override
-    public ViewTaskResponse viewTicket(long taskId, UserPrincipal userPrincipal) {
-        User currentUser = getUser(userPrincipal.getUsername());
-        Task task = taskRepository.findByIdAndCreatedByOrAssignedTo(taskId, currentUser.getUuid(), currentUser)
+    public ViewTaskResponse viewTicket(long taskId) {
+        Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new AppException("Task doesn't belong to the user", HttpStatus.BAD_REQUEST));
         return tasksDTOsMapper.toViewTaskResponse(task, userRepository);
     }
@@ -67,9 +65,8 @@ public class TaskServiceV0 implements TaskService {
     }
 
     @Override
-    public ViewTaskResponse updateTask(long taskId, UpdateTaskRequest updateTaskRequest, UserPrincipal userPrincipal) {
-        User currentUser = getUser(userPrincipal.getUsername());
-        Task task = taskRepository.findByIdAndCreatedByOrAssignedTo(taskId, currentUser.getUuid(), currentUser)
+    public ViewTaskResponse updateTask(long taskId, UpdateTaskRequest updateTaskRequest) {
+        Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new AppException("Task doesn't belong to the user", HttpStatus.BAD_REQUEST));
         task.setStatus(TaskStatus.getTaskStatus(updateTaskRequest.status()));
         taskRepository.save(task);
@@ -82,11 +79,11 @@ public class TaskServiceV0 implements TaskService {
 
     //TODO - Move this to TasksDTOsMapper if possible
     private Task getTask(TaskCreateRequest taskCreateRequest) {
-        User createdBy = getUser(taskCreateRequest.createdBy());
+        User createdBy = getUser(UUID.fromString(taskCreateRequest.createdBy()));
         return Task.builder()
                 .description(taskCreateRequest.description())
                 .status(TaskStatus.CREATED)
-                .assignedTo(getUser(taskCreateRequest.assignedTo()))
+                .assignedTo(getUser(UUID.fromString(taskCreateRequest.assignedTo())))
                 .createdBy(createdBy.getUuid())
                 .estimatedCompletionTime(getEta(taskCreateRequest.eta()))
                 .title(taskCreateRequest.title())
@@ -96,8 +93,8 @@ public class TaskServiceV0 implements TaskService {
     }
 
     //TODO - Caching
-    private User getUser(String email) {
-        return userRepository.findByEmail(email)
+    private User getUser(UUID userId) {
+        return userRepository.findByUuid(String.valueOf(userId))
                 .orElseThrow(() -> new AppException("User not found", HttpStatus.BAD_REQUEST));
     }
 

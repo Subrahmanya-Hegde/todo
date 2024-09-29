@@ -1,9 +1,12 @@
 plugins {
+    id 'org.springframework.boot'
+    id 'io.spring.dependency-management'
     id 'java'
 }
 
 group 'com.hegde'
 version '1.0-SNAPSHOT'
+sourceCompatibility = '17'
 
 repositories {
     mavenCentral()
@@ -15,6 +18,10 @@ dependencies {
     implementation project(':dashboard')
     implementation project(':user')
     implementation project(':common')
+}
+
+bootJar {
+    mainClass.set('com.hegde.todo.TodoAppApplication') // Specify the main class here
 }
 
 test {

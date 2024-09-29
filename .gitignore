@@ -4,6 +4,8 @@ build
 *.iml
 # Compiled class file
 *.class
+.DS_Store
+META-INF
 
 # Log file
 *.log
