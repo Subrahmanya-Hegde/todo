@@ -11,7 +11,7 @@ spring:
       validation-query-timeout: 30
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     open-in-view: false
     properties:
       hibernate:
@@ -22,7 +22,6 @@ spring:
         id:
           new_generator_mappings: true
 
-#Actuator Properties
 management:
   endpoints:
     web:

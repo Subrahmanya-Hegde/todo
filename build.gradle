@@ -32,6 +32,7 @@ subprojects {
 
         //Java Persistence API.
         implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+        runtimeOnly 'com.h2database:h2'
 
         //Logging
         implementation('ch.qos.logback:logback-core')

@@ -12,46 +12,17 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     open-in-view: false
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.H2Dialect
         jdbc:
           lob:
             non_contextual_creation: true
         id:
           new_generator_mappings: true
-# TODO : Oauth2 implementation
-#  security.:
-#    oauth2:
-#      client:
-#        registration:
-#          google:
-#            client-id: <YOUR_GOOGLE_CLIENT_ID>
-#            client-secret: <YOUR_GOOGLE_CLIENT_SECRET>
-#            redirect-uri: "{baseUrl}/login/oauth2/code/google"
-#      provider:
-#        google:
-#          token-uri: https://accounts.google.com/o/oauth2/token
-#          authorization-uri: https://accounts.google.com/o/oauth2/auth
-#          user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
-#          jwk-set-uri: https://www.googleapis.com/oauth2/v3/certs
 
-#jwt:
-#  secret: <YOUR_JWT_SECRET>
-#  expiration-time: 86400000 # 24 hours in milliseconds
-
-#
-#  security:
-#    oauth2:
-#      client:
-#        registration:
-#          github:
-#            client-id: CLIENT_ID
-#            client-secret: CLIENT_SECRET
-
-#Actuator Properties
 management:
   endpoints:
     web:
