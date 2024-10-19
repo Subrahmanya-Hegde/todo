@@ -10,4 +10,4 @@ spec:
       targetPort: 8080
       nodePort: 31111
   selector:
-    app: todo-app #Kubernetes will forward the traffic to all the pods carrying this label.
+    app: todo-app
